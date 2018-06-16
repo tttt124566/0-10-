@@ -59,7 +59,8 @@ class Solution {
 }
 
 // To Solve in O(n) time and O(1) space
-
+// Why? because mountains won't overlap. We can just iterate through the array to find the possible mountain at an index. Then 
+// The we can go down to the lowest point. And the next time we start from the lowest point to find a second possible mountain.
 class Solution {
     public int longestMountain(int[] A) {
         int max = 0;
