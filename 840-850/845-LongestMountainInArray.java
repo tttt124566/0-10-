@@ -57,3 +57,26 @@ class Solution {
         return longestMountain;
     }
 }
+
+// To Solve in O(n) time and O(1) space
+
+class Solution {
+    public int longestMountain(int[] A) {
+        int mid=0, start=0, end=0;
+        int maxLength = 0;
+        int N = A.length;
+        for(int i = 0; i < N-1; i++) {
+            start = i;
+            int temp = start;
+            while(temp + 1 < N && A[temp] < A[temp + 1])
+                temp++;
+            mid = temp;
+            while(temp + 1 < N && A[temp] > A[temp + 1])
+                temp++;
+            end = temp;
+            if(mid > start && mid < end) 
+                maxLength = Math.max(maxLength, (end - start + 1));
+        }
+        return maxLength;
+    }
+}
