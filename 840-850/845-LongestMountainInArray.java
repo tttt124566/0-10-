@@ -62,21 +62,17 @@ class Solution {
 
 class Solution {
     public int longestMountain(int[] A) {
-        int mid=0, start=0, end=0;
-        int maxLength = 0;
-        int N = A.length;
-        for(int i = 0; i < N-1; i++) {
-            start = i;
-            int temp = start;
-            while(temp + 1 < N && A[temp] < A[temp + 1])
-                temp++;
-            mid = temp;
-            while(temp + 1 < N && A[temp] > A[temp + 1])
-                temp++;
-            end = temp;
-            if(mid > start && mid < end) 
-                maxLength = Math.max(maxLength, (end - start + 1));
+        int max = 0;
+        int i = 0;
+        while(i < A.length) {
+            while(i + 1 < A.length && A[i+1] == A[i]) i++; // ignore flat land
+            int p = i; // start of mountain
+            while(i + 1 < A.length && A[i+1] > A[i]) i++; // going up
+            int q = i; // peak of mountain
+            while(i + 1 < A.length && A[i+1] < A[i]) i++; // going down
+            if(q > p && i > q) max = Math.max(max, i - p + 1);
+            if(i == A.length - 1) break;
         }
-        return maxLength;
+        return max < 3 ? 0 : max;
     }
 }
