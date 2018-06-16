@@ -28,18 +28,34 @@ Note:
 0 <= rooms[i].length <= 1000
 The number of keys in all rooms combined is at most 3000.
 
+    // BFS And DFS
 
 class Solution {
     public boolean canVisitAllRooms(List<List<Integer>> rooms) {
-        boolean[] visited = new boolean[rooms.size()];
-        recursiveVisit(rooms, 0, visited);
-        int visitedRooms = 0;
-        for (int i = 0; i < rooms.size(); i++) {
-            if (visited[i]) {
-                visitedRooms++;
+        // boolean[] visited = new boolean[rooms.size()];
+        // recursiveVisit(rooms, 0, visited);
+        // int visitedRooms = 0;
+        // for (int i = 0; i < rooms.size(); i++) {
+        //     if (visited[i]) {
+        //         visitedRooms++;
+        //     }
+        // }
+        // return visitedRooms == rooms.size();
+        
+        Queue<Integer> queue = new LinkedList<Integer>();
+        Set<Integer> visited = new HashSet<Integer>();
+        queue.add(0);
+        while (!queue.isEmpty()) {
+            int room = queue.poll();
+            visited.add(room);
+            for (Integer key : rooms.get(room)) {
+                if (!visited.contains(key)) {
+                    queue.add(key);
+                }
             }
         }
-        return visitedRooms == rooms.size();
+        
+        return visited.size() == rooms.size();
     }
     
     private void recursiveVisit(List<List<Integer>> rooms, int i, boolean[] visited) {
