@@ -65,3 +65,41 @@ class Solution {
         return false;
     }
 }
+
+class Solution {
+    public boolean canFinish(int numCourses, int[][] prerequisites) {
+        Map<Integer, Set<Integer>> map = new HashMap<>();
+        Map<Integer, Integer> degrees = new HashMap<>();
+        for (int i = 0; i < numCourses; i++) {
+            degrees.put(i, 0);
+            map.put(i, new HashSet<Integer>());
+        }
+        
+        for (int[] prerequisite : prerequisites) {
+            map.get(prerequisite[1]).add(prerequisite[0]);
+            degrees.put(prerequisite[0], degrees.get(prerequisite[0]) + 1);
+        }
+        
+        Queue<Integer> queue = new LinkedList<Integer>();
+        for (int i = 0; i < numCourses; i++) {
+            if (degrees.get(i) == 0) {
+                queue.offer(i);
+            }
+        }
+        int count = 0;
+        
+        while (!queue.isEmpty()) {
+            int r = queue.poll();
+            count++;
+            for (int next : map.get(r)) {
+                degrees.put(next, degrees.get(next) - 1);
+                if (degrees.get(next) == 0) {
+                    queue.offer(next);
+                }
+            }
+        }
+        
+        return count == numCourses;
+    }
+    
+}
