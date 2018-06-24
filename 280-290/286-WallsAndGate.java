@@ -53,3 +53,31 @@ class Solution {
         }
     }
 }
+
+// DFS
+
+class Solution {
+    int[][] dirs = new int[][]{{1, 0}, {-1, 0}, {0, 1}, {0, -1}};
+    public void wallsAndGates(int[][] rooms) {
+        if (rooms == null || rooms.length == 0) {
+            return;
+        }
+        for (int i = 0; i < rooms.length; i++) {
+            for (int j = 0; j < rooms[0].length; j++) {
+                if (rooms[i][j] == 0) {
+                    wallsAndGatesHelper(rooms, i, j, 0);
+                }
+            }
+        }
+    }
+    
+    private void wallsAndGatesHelper(int[][] rooms, int i, int j, int l) {
+        if (i < 0 || j < 0 || i >= rooms.length || j >= rooms[0].length || rooms[i][j] == -1 || rooms[i][j] < l) {
+            return;
+        }
+        rooms[i][j] = l;
+        for (int[] dir : dirs) {
+            wallsAndGatesHelper(rooms, i + dir[0], j + dir[1], l + 1);
+        }
+    }
+}
