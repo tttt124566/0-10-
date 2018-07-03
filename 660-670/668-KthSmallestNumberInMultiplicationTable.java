@@ -1,5 +1,4 @@
 /*
-https://leetcode.com/problems/k-th-smallest-prime-fraction/discuss/115819/Summary-of-solutions-for-problems-%22reducible%22-to-LeetCode-378
 Nearly every one have used the Multiplication Table. But could you find out the k-th smallest number quickly from the multiplication table?
 
 Given the height m and the length n of a m * n Multiplication Table, and a positive integer k, you need to return the k-th smallest number in this table.
@@ -28,6 +27,7 @@ The m and n will be in the range [1, 30000].
 The k will be in the range [1, m * n]
 */
 
+//https://leetcode.com/problems/k-th-smallest-prime-fraction/discuss/115819/Summary-of-solutions-for-problems-%22reducible%22-to-LeetCode-378
 
 class Solution {
     public int findKthNumber(int m, int n, int k) {
