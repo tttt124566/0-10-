@@ -15,7 +15,8 @@ solution.pick(3);
 // pick(1) should return 0. Since in the array only nums[0] is equal to 1.
 solution.pick(1);
 */
-
+// Resevoir Sampling: https://en.wikipedia.org/wiki/Reservoir_sampling
+// 
 class Solution {
 
     private Random random;
