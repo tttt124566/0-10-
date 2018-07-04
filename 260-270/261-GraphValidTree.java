@@ -46,3 +46,30 @@ class Solution {
         return false;
     }
 }
+// union find
+class Solution {
+    public boolean validTree(int n, int[][] edges) {
+        int[] nums = new int[n];
+        for (int i = 0; i < n; i++) {
+            nums[i] = i;
+        }
+        
+        for (int[] edge: edges) {
+            int iroot = find(nums, edge[0]);
+            int jroot = find(nums, edge[1]);
+            if (iroot == jroot) {
+                return false;
+            }
+            nums[iroot] = jroot;
+        }
+        return edges.length == n - 1;
+    }
+    
+    private int find(int[] nums, int i) {
+        while (nums[i] != i) {
+            nums[i] = nums[nums[i]];
+            i = nums[i];
+        }
+        return i;
+    }
+}
