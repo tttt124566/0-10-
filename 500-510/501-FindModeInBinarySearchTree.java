@@ -29,33 +29,54 @@ Follow up: Could you do that without using any extra space? (Assume that the imp
  *     TreeNode(int x) { val = x; }
  * }
  */
+/**
+ * Definition for a binary tree node.
+ * public class TreeNode {
+ *     int val;
+ *     TreeNode left;
+ *     TreeNode right;
+ *     TreeNode(int x) { val = x; }
+ * }
+ */
 class Solution {
-public int[] findMode(TreeNode root) {
-        List<Integer> modes = new LinkedList<>();
-        if(root == null) return new int[]{};
-        findMode(root, modes);
+    
+    int count = 1;
+    int maxFrequency = 1;
+    TreeNode prev = null;
+    public int[] findMode(TreeNode root) {
+        if (root == null) {
+            return new int[0];
+        }
+        
+        List<Integer> modes = new ArrayList<>();
+        findModeHelper(root, modes);
         int[] res = new int[modes.size()];
-        int i=0;
-        for(int m : modes) res[i++] = m;
+        for (int i = 0; i < modes.size(); i++) {
+            res[i] = modes.get(i);
+        }
         return res;
     }
     
-    int maxCount = 1, count = 1;
-    Integer prev = null; 
-    private void findMode(TreeNode root, List<Integer> modes){
-        if(root == null) return;
-        findMode(root.left, modes);
-        if(prev != null && prev == root.val)
-            ++count;
-        else
-            count = 1;
-        if(maxCount <= count){
-            if(maxCount < count)
-                modes.clear();
-            modes.add(root.val);
-            maxCount = count;
+    private void findModeHelper(TreeNode root, List<Integer> modes) {
+        if (root == null) {
+            return;
         }
-        prev = root.val;
-        findMode(root.right, modes);
+        findModeHelper(root.left, modes);
+        if (prev != null && prev.val == root.val) {
+            count++;
+        } else {
+            count = 1;
+        }
+        
+        if (count > maxFrequency) {
+            maxFrequency = count;
+            modes.clear();
+            modes.add(root.val);
+        } else if (count == maxFrequency) {
+            modes.add(root.val);
+        }
+        
+        prev = root;
+        findModeHelper(root.right, modes);
     }
 }
