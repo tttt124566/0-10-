@@ -57,3 +57,66 @@ class Solution {
         return tmp;
     }
 }
+
+
+class Solution {
+    double y=0;
+	public double[] calcEquation(String[][] equations, double[] values, String[][] queries) {
+    
+		HashMap<String,HashMap<String,Double>> graph=new HashMap<>();
+		for(int i=0;i<equations.length;i++)
+		{
+			if(!graph.containsKey(equations[i][0]))
+				graph.put(equations[i][0],new HashMap<String,Double>());
+			if(!graph.containsKey(equations[i][1]))
+				graph.put(equations[i][1],new HashMap<String,Double>());
+			graph.get(equations[i][0]).put(equations[i][1],values[i]);
+			graph.get(equations[i][1]).put(equations[i][0],1/values[i]);
+		}
+		
+		double[] ans=new double[queries.length];
+		for(int i=0;i<queries.length;i++)
+		{
+			if(!graph.containsKey(queries[i][0])||!graph.containsKey(queries[i][1]))
+			{	ans[i]=-1;
+				continue;
+			}
+			if(queries[i][0].equals(queries[i][1]))
+			{
+				ans[i]=1;
+				continue;
+			}
+			
+			if(dfs(graph,queries[i][0],queries[i][1],new HashSet<String>(),1))
+			{	
+				ans[i]=y;
+				y=0;
+			}
+            else
+				ans[i]=-1;
+		}
+		return ans;
+    }
+	
+	boolean dfs(HashMap<String,HashMap<String,Double>> graph,String start,String end,HashSet<String>set,double ans)
+	{
+		boolean flag=false;
+		if(start.equals(end))
+		{	flag=true;
+			y=ans;
+			return flag;
+		}
+		set.add(start);
+		HashMap<String,Double> map=graph.get(start);
+		for(String x:map.keySet())
+		{
+			if(!set.contains(x))
+			{
+				flag=dfs(graph,x,end,set,ans*map.get(x));
+				if(flag)
+					return flag;
+			}
+		}
+		return flag;
+	}
+}
