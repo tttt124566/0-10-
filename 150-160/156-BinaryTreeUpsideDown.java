@@ -64,3 +64,39 @@ class Solution {
         return tiltedRoot;
     }
 }
+
+/* stack */
+
+/**
+ * Definition for a binary tree node.
+ * public class TreeNode {
+ *     int val;
+ *     TreeNode left;
+ *     TreeNode right;
+ *     TreeNode(int x) { val = x; }
+ * }
+ */
+class Solution {
+    public TreeNode upsideDownBinaryTree(TreeNode root) {
+        if (root == null) {
+            return null;
+        }
+        Stack<TreeNode> stack = new Stack<>();
+        TreeNode p = root;
+        while (p != null) {
+            stack.push(p);
+            p = p.left;
+        }
+        
+        TreeNode newRoot = stack.peek();
+        stack.pop();
+        while (!stack.isEmpty()) {
+            TreeNode node = stack.pop();
+            node.left.left = node.right;
+            node.left.right = node;
+            node.left = null;
+            node.right = null;
+        }
+        return newRoot;
+    }
+}
