@@ -14,6 +14,7 @@ Explanation: Because there are two triplets which sums are less than 2:
 class Solution {
     public int threeSumSmaller(int[] nums, int target) {
         int count = 0;
+        Arrays.sort(nums);
         for (int i = 0; i < nums.length; i++) {
             int res = target - nums[i];
             int k = i + 1;
