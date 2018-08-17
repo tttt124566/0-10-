@@ -16,28 +16,20 @@ n does not exceed 1690.
 
 class Solution {
     public int nthUglyNumber(int n) {
-        int[] primes = {2, 3, 5};
-        int[] pointer = new int[3];
-        
-        int[] ugly = new int[n];
-        ugly[0] = 1;
-        for (int i = 1; i < n; i++) {
-            int min = Integer.MAX_VALUE;
-            int minIndex = 0;
-            
-            for (int j = 0; j < primes.length; j++) {
-                if (ugly[pointer[j]] * primes[j] < min) {
-                    min = ugly[pointer[j]] * primes[j];
-                    minIndex = j;
-                } else if (ugly[pointer[j]] * primes[j] == min) {
-                    pointer[j]++;
-                }
-            }
-            
-            pointer[minIndex]++;
-            ugly[i] = min;
+        if (n <= 0) {
+            return 0;
         }
-        
-        return ugly[n - 1];
+        int[] result = new int[n];
+        result[0] = 1;
+        int t2 = 0;
+        int t3 = 0;
+        int t5 = 0;
+        for (int i = 1; i < n; i++) {
+            result[i] = Math.min(result[t2] * 2, Math.min(result[t3] * 3, result[t5] * 5));
+            if (result[i] == result[t2] * 2) t2++;
+            if (result[i] == result[t3] * 3) t3++;
+            if (result[i] == result[t5] * 5) t5++;
+        }
+        return result[n-1];
     }
 }
