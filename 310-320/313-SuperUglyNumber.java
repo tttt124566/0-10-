@@ -19,26 +19,23 @@ The nth super ugly number is guaranteed to fit in a 32-bit signed integer.
 
 class Solution {
     public int nthSuperUglyNumber(int n, int[] primes) {
-        int[] ugly = new int[n];
-        ugly[0] = 1;
-        int[] pointer = new int[primes.length];
+        int[] indexes = new int[primes.length];
+        
+        int[] result = new int[n];
+        result[0] = 1;
         for (int i = 1; i < n; i++) {
-            int min = Integer.MAX_VALUE;
-            int minIndex = 0;
-            
+            int minNum = Integer.MAX_VALUE;
             for (int j = 0; j < primes.length; j++) {
-                if (ugly[pointer[j]] * primes[j] < min) {
-                    min = ugly[pointer[j]] * primes[j];
-                    minIndex = j;
-                } else if (ugly[pointer[j]] * primes[j] == min) {
-                    pointer[j]++;
+                minNum = Math.min(minNum, result[indexes[j]] * primes[j]);
+            }
+            result[i] = minNum;
+            for (int j = 0; j < primes.length; j++) {
+                if (result[indexes[j]] * primes[j] == minNum) {
+                    indexes[j] += 1;
                 }
             }
-            
-            ugly[i] = min;
-            pointer[minIndex]++;
         }
         
-        return ugly[n - 1];
+        return result[n - 1];
     }
 }
