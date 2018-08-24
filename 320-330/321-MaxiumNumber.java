@@ -33,57 +33,45 @@ Output:
 class Solution {
     public int[] maxNumber(int[] nums1, int[] nums2, int k) {
         int[] ans = new int[k];
-        for (int i = 0; i < k; i++) {
-            int[] can1 = getMaxNumberArray(nums1, i);
+        for (int i = 0; i <= k; i++) {
+            if (i <= nums1.length && (k - i) <= nums2.length) {
+                int[] can1 = getMaxNumberArray(nums1, i);
 
-            int[] can2 = getMaxNumberArray(nums2, k - i);
+                int[] can2 = getMaxNumberArray(nums2, k - i);
 
-            int[] can = merge(can1, can2, k);
-        
-            if (greater(can, ans, k)) {
-                ans = can;
+                // for (int t = 0; t < can1.length; t++) {
+                //     System.out.print(can1[t]);
+                // }
+                // System.out.println('.');
+                // for (int t = 0; t < can2.length; t++) {
+                //     System.out.print(can2[t]);
+                // }
+                // System.out.println('.');   
+                
+                int[] can = merge(can1, can2, k);
+
+                if (greater(can, 0, ans, 0)) {
+                    ans = can;
+                }
             }
         }
         
         return ans;
-    }
-    
-    private boolean greater(int[] nums1, int[] nums2, int k) {
-        int i = 0;
-        while (i < nums1.length && nums1[i] == nums2[i]) {
-            i++;
-        }
-        if (i == k) {
-            return true;
-        }
-        
-        return nums1[i] > nums2[i];
     }
     
     private int[] merge(int[] nums1, int[] nums2, int k) {
-        
-        int i = 0;
-        int j = 0;
         int[] ans = new int[k];
-        int t = 0;
-        while (i < nums1.length && j < nums2.length) {
-            if (nums1[i] > nums2[j]) {
-                ans[t++] = nums1[i++];
-            } else {
-                ans[t++] = nums2[j++];
-            }
-        }
-        
-        while (i < nums1.length) {
-            ans[t++] = nums1[i++];
-        }
-        
-        while (j < nums2.length) {
-            ans[t++] = nums2[j++];
-
-        }
-        
+        for (int i = 0, j = 0, r = 0; r < k; ++r)
+            ans[r] = greater(nums1, i, nums2, j) ? nums1[i++] : nums2[j++];
         return ans;
+    }
+    
+    public boolean greater(int[] nums1, int i, int[] nums2, int j) {
+        while (i < nums1.length && j < nums2.length && nums1[i] == nums2[j]) {
+            i++;
+            j++;
+        }
+        return j == nums2.length || (i < nums1.length && nums1[i] > nums2[j]);
     }
     
     private int[] getMaxNumberArray(int[] nums, int k) {
