@@ -35,3 +35,31 @@ class Solution {
         }
     }
 }
+
+class Solution {
+    Map<Integer, Integer> map = new HashMap<>();
+    public int coinChange(int[] coins, int amount) {
+        if (map.containsKey(amount)) {
+            return map.get(amount);
+        }
+        
+        if (amount < 0) {
+            return -1;
+        }
+        
+        if (amount == 0) {
+            return 0;
+        }
+        
+        int curr = amount + 1;
+        for (int i = 0; i < coins.length; i++) {
+            int next = coinChange(coins, amount-coins[i]);
+            if (next >= 0) {
+                curr = Math.min(curr, next + 1);
+            }
+        }
+        int finalCount = (curr == amount + 1) ? -1 : curr;
+        map.put(amount, finalCount);
+        return finalCount;
+    }
+}
