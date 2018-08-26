@@ -15,6 +15,6 @@ Seen this question in a real interview before?
 
 class Solution {
     public boolean isPowerOfFour(int num) {
-        return (num & (num - 1)) == 0 && num % 3 == 1;
+        return (num & (num - 1)) == 0 && (num & 0x55555555) != 0;
     }
 }
