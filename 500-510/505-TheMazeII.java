@@ -54,22 +54,27 @@ class Solution {
         }
         int m = maze.length;
         int n = maze[0].length;
-        PriorityQueue<int[]> queue = new PriorityQueue<int[]>((a, b) -> a[2] - b[2]);
-        if (start[0] == destination[0] && start[1] == destination[1]) {
-            return 0;
-        }
-        queue.offer(new int[]{start[0], start[1], 0});
         int[][] distance = new int[m][n];
         for (int i = 0; i< m * n ; i++) {
             distance[i / n][i % n] = Integer.MAX_VALUE;
         }
+        distance[start[0]][start[1]] = 0;
+        PriorityQueue<int[]> queue = new PriorityQueue<int[]>((a, b) -> distance[a[0]][a[1]] - distance[b[0]][b[1]]);
+        if (start[0] == destination[0] && start[1] == destination[1]) {
+            return 0;
+        }
+        queue.offer(new int[]{start[0], start[1]});
+
         
         while (!queue.isEmpty()) {
             int[] point = queue.poll();
+            if (point[0] == destination[0] && point[1] == destination[1]) {
+                return distance[point[0]][point[1]];
+            }
             for (int[] dir : dirs) {
                 int xx = point[0];
                 int yy = point[1];
-                int length = point[2];
+                int length = distance[xx][yy];
                 while (xx >= 0 && yy >= 0 && xx < m && yy < n && maze[xx][yy] != 1) {
                     xx = xx + dir[0];
                     yy = yy + dir[1];
@@ -80,10 +85,10 @@ class Solution {
                 length--;
                 if (distance[xx][yy] > length) {
                     distance[xx][yy] = length;
-                    queue.offer(new int[]{xx, yy, length});
+                    queue.offer(new int[]{xx, yy});
                 }
             }
         }
-        return distance[destination[0]][destination[1]] == Integer.MAX_VALUE ? -1 : distance[destination[0]][destination[1]];
+        return -1;
     }
 }
