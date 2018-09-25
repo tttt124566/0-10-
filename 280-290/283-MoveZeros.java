@@ -11,6 +11,7 @@ You must do this in-place without making a copy of the array.
 Minimize the total number of operations.
 */
 
+// Suboptimal Solution:
 class Solution {
     public void moveZeroes(int[] nums) {
         int i = 0;
@@ -28,6 +29,21 @@ class Solution {
         while (i < nums.length) {
             nums[i] = 0;
             i++;
+        }
+    }
+}
+
+// Optimal Solution:
+class Solution {
+    public void moveZeroes(int[] nums) {
+        int i = 0;
+        for (int j = 0; j < nums.length; j++) {
+            if (nums[j] != 0) {
+                int temp = nums[i];
+                nums[i] = nums[j];
+                nums[j] = temp;
+                i++;
+            }
         }
     }
 }
