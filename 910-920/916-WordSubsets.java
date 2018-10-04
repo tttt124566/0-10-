@@ -80,7 +80,7 @@ class Solution {
 }
 
 
-// optimal way
+// optimal way O(A.length + B.length)
 
 class Solution {
     public List<String> wordSubsets(String[] A, String[] B) {
