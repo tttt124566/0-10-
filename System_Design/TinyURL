@@ -1,0 +1,34 @@
+1, Use cases:
+1) user gives a long url, our service generates a short url
+2) when user accesses the short url, the service will redirects it to the orginal url
+3) Users should optionally be able to pick a custom short link for their URL
+4) Linkes will expire after a timespan, and users are able to set the timespan.
+
+2, System requirements
+1) Highly Available
+2) URL redirection quick without latency
+3) URL not guessable (preditable) 
+
+3, data estimate:
+1) QPS Estimate: assume 500M urls generated every month. Read : Write = 100 : 1
+
+New urls generated per second = 500M / 30 * 24 * 60 * 60 ~= 200/s
+Read QPS : 200 * 100 = 20000 / s
+
+2) Storage Estimate: assume one url takes 500 bytes
+
+500M * 500 * 5 * 12 = 15TB
+
+3) BandWidth Estimate:
+
+Write BandWidth: 200 * 500bytes /s = 100KB/s
+Read BandWidth: 20000 * 500 bytes /s = 10MB/s
+
+4) Memory Estimate per day:
+If we use cache, assume we cache 20 % of whole urls.
+
+19K * 3600 seconds * 24 hours = ~1.7 billion requests per day 
+To cache 20% of these requests, we will need 170GB of memory
+
+4. System APIs
+
