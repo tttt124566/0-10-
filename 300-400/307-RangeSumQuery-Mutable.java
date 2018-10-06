@@ -79,3 +79,52 @@ class NumArray {
  * obj.update(i,val);
  * int param_2 = obj.sumRange(i,j);
  */
+
+class NumArray {
+    int[] BIT;
+    int[] nums;
+    int n;
+    public NumArray(int[] nums) {
+        n = nums.length;
+        BIT = new int[n + 1];
+        this.nums = nums;
+        for (int i = 0; i < nums.length; i++) {
+            init(i, nums[i]);
+        }
+    }
+    
+    public void init(int i, int val) {
+		i++;
+		while (i <= n) {
+			BIT[i] += val;
+			i += (i & -i);
+		}
+	}
+    
+    public void update(int i, int val) {
+        int delta = val - nums[i];
+        nums[i] = val;
+        init(i, delta);
+    }
+    
+    public int sumRange(int i, int j) {
+        return getSum(j) - getSum(i - 1);
+    }
+    
+    public int getSum(int i) {
+        i++;
+        int sum = 0;
+        while (i > 0) {
+            sum += BIT[i];
+            i -= (i & (-i));
+        }
+        return sum;
+    }
+}
+
+/**
+ * Your NumArray object will be instantiated and called as such:
+ * NumArray obj = new NumArray(nums);
+ * obj.update(i,val);
+ * int param_2 = obj.sumRange(i,j);
+ */
