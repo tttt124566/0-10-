@@ -1,3 +1,5 @@
+
+/*
 Sqrt(x)
 出处
 
@@ -21,6 +23,7 @@ Complexity
 由于我们利用了二分查找的思想，故复杂度为O(log(x/precision))
 
 Code
+*/
 double mySqrtHelper(double x, double lowBound, double highBound) {
     double precision = 0.00001;
     double sqrt = lowBound / 2 + highBound / 2;
